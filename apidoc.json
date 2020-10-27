@@ -3,5 +3,5 @@
   "version": "1.0.0",
   "description": "在线教育商城",
   "title": "在线教育商城",
-  "url" : "https://localhost:8080"
+  "url" : "http://localhost:8080"
 }

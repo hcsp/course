@@ -1,11 +1,16 @@
 package com.github.hcsp.course.controller;
 
+import com.github.hcsp.course.configuration.Config;
+import com.github.hcsp.course.model.HttpException;
+import com.github.hcsp.course.model.Session;
 import com.github.hcsp.course.model.User;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/api/v1/")
@@ -20,7 +25,7 @@ public class AuthController {
      *
      * @apiParam {String} username 用户名
      * @apiParam {String} password 密码
-     * @apiParamExample  Request-Example:
+     * @apiParamExample Request-Example:
      *          username: Alice
      *          password: MySecretPassword
      *
@@ -60,7 +65,7 @@ public class AuthController {
      *
      * @apiParam {String} username 用户名
      * @apiParam {String} password 密码
-     * @apiParamExample  Request-Example:
+     * @apiParamExample Request-Example:
      *          username: Alice
      *          password: MySecretPassword
      *
@@ -97,7 +102,7 @@ public class AuthController {
      *
      * @apiHeader {String} Accept application/json
      *
-     * @apiParamExample  Request-Example:
+     * @apiParamExample Request-Example:
      *            GET /api/v1/auth
      *
      * @apiSuccess {User} user 用户信息
@@ -121,8 +126,15 @@ public class AuthController {
      * @return 已登录的用户
      */
     @GetMapping("/session")
-    public User authStatus() {
-        return null;
+    public Session authStatus() {
+        User currentUser = Config.UserContext.getCurrentUser();
+        if (currentUser == null) {
+            throw new HttpException(401, "Unauthorized");
+        } else {
+            Session session = new Session();
+            session.setUser(currentUser);
+            return session;
+        }
     }
 
     /**
@@ -132,7 +144,7 @@ public class AuthController {
      *
      * @apiHeader {String} Accept application/json
      *
-     * @apiParamExample  Request-Example:
+     * @apiParamExample Request-Example:
      *            DELETE /api/v1/session
      *
      * @apiSuccessExample Success-Response:
