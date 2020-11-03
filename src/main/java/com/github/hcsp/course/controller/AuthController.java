@@ -1,13 +1,18 @@
 package com.github.hcsp.course.controller;
 
+import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.github.hcsp.course.configuration.Config;
+import com.github.hcsp.course.dao.UserRepository;
 import com.github.hcsp.course.model.HttpException;
 import com.github.hcsp.course.model.Session;
 import com.github.hcsp.course.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
@@ -15,6 +20,8 @@ import javax.servlet.http.HttpServletResponse;
 @RestController
 @RequestMapping("/api/v1/")
 public class AuthController {
+    @Autowired
+    UserRepository userRepository;
     /**
      * @api {post} /api/v1/user 注册
      * @apiName 注册
@@ -51,8 +58,28 @@ public class AuthController {
      * @param password 密码
      */
     @PostMapping("/user")
-    public Object register(String username, String password) {
-        return null;
+    public User register(@RequestParam("username") String username,
+                         @RequestParam("password") String password) {
+        if (StringUtils.isEmpty(username) || username.length() > 20 || username.length() < 6) {
+            throw new HttpException(400, "用户名必须在6到20之间");
+        }
+        if (StringUtils.isEmpty(password)) {
+            throw new HttpException(400, "密码不能为空");
+        }
+
+        User user = new User();
+        user.setUsername(username);
+        // 1 数据库绝对不能明文存密码
+        // 2 不要自己设计加密算法
+        user.setEncryptedPassword(BCrypt.withDefaults()
+                .hashToString(12, password.toCharArray()));
+        try {
+            userRepository.save(user);
+        } catch (Throwable e) {
+            // 如果用户名已经被注册
+            throw new HttpException(409, "用户名已经被注册");
+        }
+        return user;
     }
 
     /**
