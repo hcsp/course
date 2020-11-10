@@ -1,5 +1,7 @@
 package com.github.hcsp.course.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,7 +12,7 @@ import javax.persistence.Table;
 import java.util.List;
 
 @Entity
-@Table(name = "user", schema = "public")
+@Table(name = "users", schema = "public")
 public class User extends BaseEntity {
 
     private String username;
@@ -26,6 +28,7 @@ public class User extends BaseEntity {
     }
 
     @Column(name = "encrypted_password")
+    @JsonIgnore
     public String getEncryptedPassword() {
         return encryptedPassword;
     }
