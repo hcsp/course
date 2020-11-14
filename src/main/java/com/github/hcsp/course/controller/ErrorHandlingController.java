@@ -11,6 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 全局错误处理。在任何地方抛出的{@link HttpException}都可以在这里被捕获并转换为对应的HTTP status code。
+ */
 @ControllerAdvice
 public class ErrorHandlingController {
     ObjectMapper objectMapper = new ObjectMapper();

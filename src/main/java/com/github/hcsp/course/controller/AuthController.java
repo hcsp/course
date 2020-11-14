@@ -1,7 +1,6 @@
 package com.github.hcsp.course.controller;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
-import com.github.hcsp.course.annotation.UserRoleManagerService;
 import com.github.hcsp.course.configuration.Config;
 import com.github.hcsp.course.dao.SessionDao;
 import com.github.hcsp.course.dao.UserDao;
@@ -22,11 +21,13 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
-import java.util.List;
 import java.util.UUID;
 
-import static com.github.hcsp.course.configuration.Config.UserInterceptor.COOKIE_NAME;
+import static com.github.hcsp.course.configuration.UserInterceptor.COOKIE_NAME;
 
+/**
+ * 登录、鉴权管理
+ */
 @RestController
 @RequestMapping("/api/v1")
 public class AuthController {
@@ -251,13 +252,5 @@ public class AuthController {
         cookie.setMaxAge(0);
         response.addCookie(cookie);
         response.setStatus(204);
-    }
-
-    @Autowired
-    UserRoleManagerService userRoleManagerService;
-
-    @RequestMapping("/admin/users")
-    public List<User> getAllUsers() {
-        return userRoleManagerService.getAllUsers();
     }
 }

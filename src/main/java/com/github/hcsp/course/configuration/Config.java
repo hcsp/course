@@ -1,22 +1,18 @@
 package com.github.hcsp.course.configuration;
 
 import com.github.hcsp.course.dao.SessionDao;
-import com.github.hcsp.course.model.Session;
 import com.github.hcsp.course.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import static com.github.hcsp.course.configuration.Config.UserInterceptor.COOKIE_NAME;
+import static com.github.hcsp.course.configuration.UserInterceptor.COOKIE_NAME;
 
 @Configuration
 public class Config implements WebMvcConfigurer {
@@ -53,30 +49,4 @@ public class Config implements WebMvcConfigurer {
                 .findFirst();
     }
 
-    public static class UserInterceptor implements HandlerInterceptor {
-        public static final String COOKIE_NAME = "COURSE_APP_SESSION_ID";
-
-        @Autowired
-        SessionDao sessionDao;
-
-        public UserInterceptor(SessionDao sessionDao) {
-            this.sessionDao = sessionDao;
-        }
-
-        @Override
-        public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-            // 从数据库根据cookie取出用户信息，并放到当前的 线程上下文里
-            getCookie(request)
-                    .flatMap(sessionDao::findByCookie)
-                    .map(Session::getUser)
-                    .ifPresent(UserContext::setCurrentUser);
-
-            return true;
-        }
-
-        @Override
-        public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-            UserContext.setCurrentUser(null);
-        }
-    }
 }

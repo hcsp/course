@@ -1,5 +1,7 @@
 package com.github.hcsp.course.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -28,6 +30,7 @@ public class Role extends BaseEntity {
     @JoinTable(name = "permission",
             joinColumns = @JoinColumn(name = "role_id"),
             inverseJoinColumns = @JoinColumn(name = "id"))
+    @JsonIgnore
     public Set<Permission> getPermissions() {
         return permissions;
     }
