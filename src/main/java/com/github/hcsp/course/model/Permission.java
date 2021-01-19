@@ -7,7 +7,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "permission", schema = "public")
-public class Permission extends BaseEntity {
+public class Permission extends BaseStatusEntity {
     private String name;
 
     @Column(name = "name", nullable = false, length = 50)

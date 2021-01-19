@@ -1,16 +1,19 @@
 package com.github.hcsp.course.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-//@Entity
-//@Table(name = "video", schema = "public")
-public class Video extends BaseEntity {
+@Entity
+@Table(name = "video", schema = "public")
+public class Video extends BaseStatusEntity {
     private String name;
     private String description;
     private String url;
     private Course course;
 
+    @Column(name = "name", nullable = false, length = 50)
     public String getName() {
         return name;
     }
@@ -19,6 +22,7 @@ public class Video extends BaseEntity {
         this.name = name;
     }
 
+    @Column(name = "description")
     public String getDescription() {
         return description;
     }
@@ -27,6 +31,7 @@ public class Video extends BaseEntity {
         this.description = description;
     }
 
+    @Column(name = "url")
     public String getUrl() {
         return url;
     }
@@ -35,6 +40,7 @@ public class Video extends BaseEntity {
         this.url = url;
     }
 
+    @ManyToOne
     public Course getCourse() {
         return course;
     }

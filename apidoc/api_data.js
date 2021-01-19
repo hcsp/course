@@ -1211,6 +1211,155 @@ define({ "api": [
     "groupTitle": "视频管理"
   },
   {
+    "type": "get",
+    "url": "/checkPay?orderId={id}",
+    "title": "付款完成之后检查支付状态页面",
+    "name": "检查支付状态页面",
+    "group": "订单支付管理",
+    "description": "<p>在付款完成后，由支付宝负责在浏览器端跳转到此页面， 后端收到此请求后开始向检查订单状态并修改对应数据库的状态。 若订单已经付款，跳转到该订单对应到课程页面。</p>",
+    "parameter": {
+      "examples": [
+        {
+          "title": "Request-Example:",
+          "content": "GET /checkPay?orderId=123",
+          "type": "json"
+        }
+      ]
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "HTML",
+            "optional": false,
+            "field": "html",
+            "description": "<p>付款页面的HTML</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "\nHTTP/1.1 302 Found",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "400",
+            "description": "<p>Bad Request 若请求中包含错误</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "401",
+            "description": "<p>Unauthorized 若未登录</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "403",
+            "description": "<p>Forbidden 若非本人订单</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 403 Forbidden\n{\n  \"message\": \"Forbidden\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "src/main/java/com/github/hcsp/course/controller/OrderController.java",
+    "groupTitle": "订单支付管理"
+  },
+  {
+    "type": "get",
+    "url": "/showPay?courseId={id}",
+    "title": "获取指定id的课程的付款页面",
+    "name": "获取指定id课程的付款页面",
+    "group": "订单支付管理",
+    "description": "<p>调用支付宝的接口，获取付款页面HTML。</p>",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "Accept",
+            "description": "<p>text/html</p>"
+          }
+        ]
+      }
+    },
+    "parameter": {
+      "examples": [
+        {
+          "title": "Request-Example:",
+          "content": "GET /showPay?courseId=1",
+          "type": "json"
+        }
+      ]
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "HTML",
+            "optional": false,
+            "field": "html",
+            "description": "<p>付款页面的HTML</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "\nHTTP/1.1 200 OK\n<html>\n   付款页面HTML\n</html>",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "400",
+            "description": "<p>Bad Request 若请求中包含错误</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "401",
+            "description": "<p>Unauthorized 若未登录</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 403 Forbidden\n{\n  \"message\": \"Forbidden\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "src/main/java/com/github/hcsp/course/controller/OrderController.java",
+    "groupTitle": "订单支付管理"
+  },
+  {
     "type": "patch",
     "url": "/api/v1/course/{id}",
     "title": "修改课程",

@@ -1,6 +1,7 @@
 package com.github.hcsp.course.configuration;
 
 import com.github.hcsp.course.dao.SessionDao;
+import com.github.hcsp.course.model.HttpException;
 import com.github.hcsp.course.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -30,6 +31,14 @@ public class Config implements WebMvcConfigurer {
         // 获取当前线程上下文的用户，null代表没有登录
         public static User getCurrentUser() {
             return currentUser.get();
+        }
+
+        public static User getCurrentUserOr401() {
+            User user = currentUser.get();
+            if (user == null) {
+                throw new HttpException(401, "Not login");
+            }
+            return user;
         }
 
         // 为当前线程上下文设置用户，null代表清空当前的用户

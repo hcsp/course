@@ -13,7 +13,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "users", schema = "public")
-public class User extends BaseEntity {
+public class User extends BaseStatusEntity {
 
     private String username;
     private String encryptedPassword;

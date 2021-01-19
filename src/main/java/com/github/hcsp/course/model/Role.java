@@ -12,7 +12,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "role", schema = "public")
-public class Role extends BaseEntity {
+public class Role extends BaseStatusEntity {
     private String name;
 
     @Column(name = "name", nullable = false, length = 50)

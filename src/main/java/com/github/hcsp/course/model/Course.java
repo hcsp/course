@@ -3,17 +3,19 @@ package com.github.hcsp.course.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.util.List;
 
-//@Entity
-//@Table(name = "course", schema = "public")
-public class Course extends BaseEntity {
+@Entity
+@Table(name = "course", schema = "public")
+public class Course extends BaseStatusEntity {
     private String name;
     private String description;
-    private User teacher;
+    private String teacherName;
+    private String teacherDescription;
     private List<Video> videos;
     private Integer price;
     private boolean purchased;
@@ -36,18 +38,28 @@ public class Course extends BaseEntity {
         this.description = description;
     }
 
-    @OneToOne
-    @JoinColumn(name = "teacher_user_id")
-    public User getTeacher() {
-        return teacher;
+    @Column(name = "teacherName")
+    public String getTeacherName() {
+        return teacherName;
     }
 
-    public void setTeacher(User teacher) {
-        this.teacher = teacher;
+    public void setTeacherName(String teacherName) {
+        this.teacherName = teacherName;
+    }
+
+    @Column(name = "teacherDescription")
+    public String getTeacherDescription() {
+        return teacherDescription;
+    }
+
+    public void setTeacherDescription(String teacherDescription) {
+        this.teacherDescription = teacherDescription;
     }
 
     @OneToMany
-    @JoinColumn
+    @JoinTable(name = "video",
+            joinColumns = @JoinColumn(name = "course_id"),
+            inverseJoinColumns = @JoinColumn(name = "id"))
     public List<Video> getVideos() {
         return videos;
     }
@@ -65,6 +77,7 @@ public class Course extends BaseEntity {
         this.price = price;
     }
 
+    @Transient
     public boolean isPurchased() {
         return purchased;
     }

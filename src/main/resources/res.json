@@ -1,0 +1,19 @@
+{
+  "alipay_trade_query_response": {
+    "code": "10000",
+    "msg": "Success",
+    "buyer_logon_id": "rbj***@sandbox.com",
+    "buyer_pay_amount": "0.00",
+    "buyer_user_id": "2088622955098639",
+    "buyer_user_type": "PRIVATE",
+    "invoice_amount": "0.00",
+    "out_trade_no": "testOrder1",
+    "point_amount": "0.00",
+    "receipt_amount": "0.00",
+    "send_pay_date": "2020-12-01 21:40:43",
+    "total_amount": "100.00",
+    "trade_no": "2020120122001498630504790788",
+    "trade_status": "TRADE_SUCCESS"
+  },
+  "sign": "T5bbrgTzT8HRBcfEYCuboCYcmTcepOtCaVCauF0VN7qeAJXJwQKuwtF16sJaduiCGBftkEXAUOo4DsGJD3juikkQKmZ1jKOi15wRYIHrwhpXDsdP98mbbAmcd1JeWxmVDUPm57Ix0XX/YzHBd3EPK3LTGCj+kv05SOz9J35FNXrRPP9yprDNyef1fYSrf5jFvtrEKSttHOX95GqU/l9QAozIFw2rFP1WMM8tMctpaIjdYEd46bkyjz8js3qIslDlHpFubuFaROgUNP3Tbbzu8SLOVPYMpnEXQEnTtFq/msqlV7bA0zUKx/KnUmzhu6/cSplRDx3QZ+0/HRzgFV+YOw=="
+}
